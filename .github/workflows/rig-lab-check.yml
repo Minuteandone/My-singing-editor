@@ -1,0 +1,26 @@
+name: Check Rig Lab JavaScript
+on:
+  push:
+    branches: [main]
+    paths: [rig-lab.js, rig-lab.html, rig-lab.css, .github/workflows/rig-lab-check.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check Rig Lab JavaScript syntax
+        run: node --check rig-lab.js
+      - name: Check that required web app files exist
+        shell: bash
+        run: |
+          test -s rig-lab.js
+          test -s rig-lab.css
+          test -s rig-lab.html
+          grep -q 'src="./rig-lab.js"' rig-lab.html
+          grep -q 'href="./rig-lab.css"' rig-lab.html
