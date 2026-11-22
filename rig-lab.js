@@ -88,7 +88,7 @@ function getSelectedAsset(){const key=$('jsonSelect').value;if(key.startsWith('z
  if(key.startsWith('f:')){const file=state.files.get(key.slice(2));return file?{file,name:file.name}:null;}return null;}
 async function loadSelectedJSON(){
  const choice=getSelectedAsset();if(!choice)return;
- pause();status('Reading '+base(choice.name)+'…');
+ pause();clearUrls();state.atlas.clear();status('Reading '+base(choice.name)+'…');
  try{
   const bytes=await assetBytes(choice),text=DECODER.decode(bytes),doc=JSON.parse(text);
   if(!Array.isArray(doc.anims)||!Array.isArray(doc.sources)||!doc.anims.length)throw Error('This is not an Aniviewer converted animation JSON (sources/anims missing).');
